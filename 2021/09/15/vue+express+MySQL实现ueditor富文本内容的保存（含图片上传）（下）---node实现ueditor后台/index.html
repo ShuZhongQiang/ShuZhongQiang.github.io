@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下） | Memory of love</title><meta name="keywords" content="vue"><meta name="author" content="Pluto"><meta name="copyright" content="Pluto"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）">
+<meta property="og:url" content="http://szqlovegw.top/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89%EF%BC%88%E4%B8%8B%EF%BC%89---node%E5%AE%9E%E7%8E%B0ueditor%E5%90%8E%E5%8F%B0/index.html">
+<meta property="og:site_name" content="Memory of love">
+<meta property="og:description" content="前端">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-09-15T06:43:19.000Z">
+<meta property="article:modified_time" content="2021-10-11T03:58:08.883Z">
+<meta property="article:author" content="Pluto">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70"><link rel="shortcut icon" href="/img/heart.png"><link rel="canonical" href="http://szqlovegw.top/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89%EF%BC%88%E4%B8%8B%EF%BC%89---node%E5%AE%9E%E7%8E%B0ueditor%E5%90%8E%E5%8F%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Pluto","link":"链接: ","source":"来源: Memory of love","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-11 11:58:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/modify.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/09/16/ElLFRbAUs1N9oVP.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/love/"><i class="fa-fw fas fa-heart card-announcement-animation"></i><span> 我们</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Memory of love</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/love/"><i class="fa-fw fas fa-heart card-announcement-animation"></i><span> 我们</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-15T06:43:19.000Z" title="发表于 2021-09-15 14:43:19">2021-09-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-11T03:58:08.883Z" title="更新于 2021-10-11 11:58:08">2021-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="top-img" style="background-image: url('https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70');"></div><article class="post-content" id="article-container"><h2 id="vue-express-MySQL实现ueditor富文本内容的保存（含图片上传）（下）"><a href="#vue-express-MySQL实现ueditor富文本内容的保存（含图片上传）（下）" class="headerlink" title="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）"></a>vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）</h2><p>接上章 我们已经搭好了后台数据连接！<br>现在我们来实现 vue集成 uditor 富文本<br>参考来源：<a target="_blank" rel="noopener" href="https://blog.csdn.net/haochuan9421/article/details/81975966?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1">Vue项目中最简单的使用集成UEditor方式</a><br>这里再赘述一下</p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i vue-ueditor-wrap</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">yarn add vue-ueditor-wrap</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="一、下载-UEditor"><a href="#一、下载-UEditor" class="headerlink" title="一、下载 UEditor"></a>一、下载 UEditor</h2><blockquote>
+<p>下载最新编译的 UEditor。官网目前最新的版本是1.4.3.3，存在诸多 BUG，例如<br>Issue1，且官方不再积极维护。为了世界的和平，针对一些常见 BUG，我进行了修复，并把编译好的文件放在了本仓库的<br>assets/downloads 目录下，你可以放心下载，当然你也可以自己 clone 官方源码并编译。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2020041610395329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>将下载的压缩包解压并重命名为 UEditor（只需要选择一个你需要的版本,比如 utf8-php）,放入你项目的 static 目录下。<br><img src="https://img-blog.csdnimg.cn/20200416104019836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>如果你使用的是 vue-cli 3.x，可以把 UEditor 文件夹放入项目的 public 目录下。</p>
+</blockquote>
+<h2 id="二、在vue的main-js中引入VueUeditorWrap组件"><a href="#二、在vue的main-js中引入VueUeditorWrap组件" class="headerlink" title="二、在vue的main.js中引入VueUeditorWrap组件"></a>二、在vue的main.js中引入VueUeditorWrap组件</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import VueUeditorWrap from 'vue-ueditor-wrap' // ES6 Module</span><br><span class="line">// 或者</span><br><span class="line">const VueUeditorWrap = require('vue-ueditor-wrap') // CommonJS</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="三、注册组件"><a href="#三、注册组件" class="headerlink" title="三、注册组件"></a>三、注册组件</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 在 main.js 里将它注册为全局组件</span><br><span class="line">Vue.component('vue-ueditor-wrap', VueUeditorWrap)</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="四、v-model绑定数据"><a href="#四、v-model绑定数据" class="headerlink" title="四、v-model绑定数据"></a>四、v-model绑定数据</h2><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;vue-ueditor-wrap v-model="msg"&gt;&lt;/vue-ueditor-wrap&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data () {</span><br><span class="line">  return {</span><br><span class="line">    msg: '&lt;h2&gt;&lt;img src="http://img.baidu.com/hi/jx2/j_0003.gif"/&gt;Vue + UEditor + v-model双向绑定&lt;/h2&gt;'</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>至此你已经可以在页面中看到一个初始化之后的 UEditor 了，并且它已经成功和数据绑定了</p>
+</blockquote>
+<h2 id="五、根据项目需求修改配置，完整配置选项查看-ueditor-config-js-源码或-官方文档"><a href="#五、根据项目需求修改配置，完整配置选项查看-ueditor-config-js-源码或-官方文档" class="headerlink" title="五、根据项目需求修改配置，完整配置选项查看 ueditor.config.js 源码或 官方文档"></a>五、根据项目需求修改配置，完整配置选项查看 ueditor.config.js 源码或 官方文档</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;vue-ueditor-wrap v-model=<span class="string">"msg"</span> :config=<span class="string">"myConfig"</span>&gt;&lt;/vue-ueditor-wrap&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">data</span></span> () {</span><br><span class="line">  <span class="built_in">return</span> {</span><br><span class="line">    msg: <span class="string">'&lt;h2&gt;&lt;img src="http://img.baidu.com/hi/jx2/j_0003.gif"/&gt;Vue + UEditor + v-model双向绑定&lt;/h2&gt;'</span>,</span><br><span class="line">    myConfig: {</span><br><span class="line">      // 编辑器不自动被内容撑高</span><br><span class="line">      autoHeightEnabled: <span class="literal">false</span>,</span><br><span class="line">      // 初始容器高度</span><br><span class="line">      initialFrameHeight: 240,</span><br><span class="line">      // 初始容器宽度</span><br><span class="line">      initialFrameWidth: <span class="string">'100%'</span>,</span><br><span class="line">      // 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）</span><br><span class="line">      serverUrl: <span class="string">'http://35.201.165.105:8000/controller.php'</span>,</span><br><span class="line">      // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2</span><br><span class="line">      UEDITOR_HOME_URL: <span class="string">'/static/UEditor/'</span></span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>以上是vue引用ueditor的基本流程，具体请见：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/haochuan9421/article/details/81975966?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1">https://blog.csdn.net/haochuan9421/article/details/81975966?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1</a></p>
+</blockquote>
+<p>下面上我们页面的代码：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=<span class="string">"hello"</span>&gt;</span><br><span class="line">      &lt;div class=<span class="string">"layui-row"</span>&gt;</span><br><span class="line">        &lt;div class=<span class="string">"layui-col-md6"</span>&gt;</span><br><span class="line">          &lt;div id=<span class="string">"left"</span>&gt;</span><br><span class="line">            &lt;div id=<span class="string">"UeForm"</span>&gt;</span><br><span class="line">              &lt;h1&gt;政策编辑&lt;/h1&gt;</span><br><span class="line">              &lt;!--&lt;vue-ueditor-wrap style=<span class="string">"margin-left:5%"</span> v-model=<span class="string">"content"</span> :config=<span class="string">"myConfig"</span>&gt;&lt;/vue-ueditor-wrap&gt;--&gt;</span><br><span class="line">              &lt;form&gt;</span><br><span class="line">                &lt;vue-ueditor-wrap style=<span class="string">"margin-left:5%;margin-top: 10px"</span> v-model=<span class="string">"content"</span> :config=<span class="string">"myConfig"</span>&gt;&lt;/vue-ueditor-wrap&gt;</span><br><span class="line">                &lt;a href=<span class="string">"javascript:;"</span> style=<span class="string">"margin-top: 20px"</span> class=<span class="string">"layui-btn"</span> @click=<span class="string">"addInfo"</span>&gt;提交&lt;/a&gt;</span><br><span class="line">              &lt;/form&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">"layui-col-md6"</span>&gt;</span><br><span class="line">          &lt;div id=<span class="string">"head"</span> style=<span class="string">"text-align: center"</span> &gt;</span><br><span class="line">            &lt;h1&gt;预览界面&lt;/h1&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div id=<span class="string">"right"</span> v-html=<span class="string">"content"</span>&gt;</span><br><span class="line"></span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="built_in">export</span> default {</span><br><span class="line">  name: <span class="string">'hello'</span>,</span><br><span class="line">  <span class="function"><span class="title">data</span></span> () {</span><br><span class="line">    <span class="built_in">return</span> {</span><br><span class="line">      msg: <span class="string">''</span>,</span><br><span class="line">      myConfig: {</span><br><span class="line">        // 编辑器不自动被内容撑高</span><br><span class="line">        autoHeightEnabled: <span class="literal">false</span>,</span><br><span class="line">        // 初始容器高度</span><br><span class="line">        initialFrameHeight: 700,</span><br><span class="line">        // 初始容器宽度</span><br><span class="line">        initialFrameWidth: <span class="string">'98%'</span>,</span><br><span class="line">        // 上传文件接口</span><br><span class="line">       // serverUrl: <span class="string">'/api/ueditor/ueditor/ue'</span>,</span><br><span class="line">      },</span><br><span class="line">      content: <span class="string">''</span>,</span><br><span class="line">      contentInfo: <span class="string">''</span>,</span><br><span class="line">      name:<span class="string">''</span></span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line">  <span class="function"><span class="title">mounted</span></span> () {</span><br><span class="line">    layui.use(<span class="string">'element'</span>, <span class="function"><span class="title">function</span></span>() {</span><br><span class="line">      var element = layui.element</span><br><span class="line">    })</span><br><span class="line">  },</span><br><span class="line">  methods: {</span><br><span class="line">    <span class="function"><span class="title">addInfo</span></span> () {</span><br><span class="line">      <span class="built_in">let</span> that = this</span><br><span class="line">      layui.use(<span class="string">'layer'</span>, <span class="function"><span class="title">function</span></span> () {</span><br><span class="line">        layer.prompt({</span><br><span class="line">          formType: 0,</span><br><span class="line">          value: <span class="string">''</span>,</span><br><span class="line">          offset: <span class="string">'auto'</span>,</span><br><span class="line">          title: <span class="string">'请输入内容标题'</span></span><br><span class="line">        }, <span class="keyword">function</span> (value, index, elem) {</span><br><span class="line">          that.name = value;</span><br><span class="line">          layer.close(index);</span><br><span class="line">          that.addUser();</span><br><span class="line">        })</span><br><span class="line">      })</span><br><span class="line">    },</span><br><span class="line">    <span class="function"><span class="title">addUser</span></span> () {</span><br><span class="line">      var content = this.content</span><br><span class="line">      var name = this.name</span><br><span class="line">      this.<span class="variable">$http</span>.post(<span class="string">'/api/user/userApi/addUditor'</span>, {</span><br><span class="line">        content: content,</span><br><span class="line">        name: name</span><br><span class="line">      }, {}).<span class="keyword">then</span>((response) =&gt; {</span><br><span class="line">        <span class="keyword">if</span> (response.ok === <span class="literal">true</span>) {</span><br><span class="line">          this.layerForm(<span class="literal">true</span>);</span><br><span class="line">        }<span class="keyword">else</span> {</span><br><span class="line">          this.layerForm(<span class="literal">false</span>)</span><br><span class="line">        }</span><br><span class="line">      })</span><br><span class="line">    },</span><br><span class="line">    layerForm (e) {</span><br><span class="line">      var tips = <span class="string">''</span>;</span><br><span class="line">      var icon = <span class="string">''</span>;</span><br><span class="line">      layui.use(<span class="string">'layer'</span>, <span class="function"><span class="title">function</span></span> () {</span><br><span class="line">        //配置一个透明的询问框</span><br><span class="line">        <span class="keyword">if</span> (e){</span><br><span class="line">          icon = <span class="string">'1'</span></span><br><span class="line">          tips = <span class="string">'添加成功'</span></span><br><span class="line">        }<span class="keyword">else</span>{</span><br><span class="line">          icon = <span class="string">'2'</span></span><br><span class="line">          tips = <span class="string">'添加失败'</span></span><br><span class="line">        }</span><br><span class="line">        layer.msg(tips, {</span><br><span class="line">          icon: icon,</span><br><span class="line">          time: 2000, //20s后自动关闭</span><br><span class="line">        })</span><br><span class="line">      })</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#right{</span></span><br><span class="line">    margin-top: 10px;</span><br><span class="line">    padding-top: 20px;</span><br><span class="line">    border: <span class="comment">#cecece 1px solid;</span></span><br><span class="line">    min-height: 841px;</span><br><span class="line">    max-height: 850px;</span><br><span class="line">    overflow-y: scroll;</span><br><span class="line">    padding-left: 20px;</span><br><span class="line">  }</span><br><span class="line">  <span class="comment">#UeForm {</span></span><br><span class="line">    text-align: center;</span><br><span class="line">  }</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我这里引用了layui具体引用方式可以查看：<a target="_blank" rel="noopener" href="https://blog.csdn.net/daily886/article/details/81707223">vuejs+layui的使用</a><br>引用方式很简单 下载layui 放入static文件夹中 在index.html中引用。</p>
+<h2 id="—————————————————————————————"><a href="#—————————————————————————————" class="headerlink" title="—————————————————————————————"></a>—————————————————————————————</h2><h2 id="下面是我们的重点：如何实现ueditor的图片上传"><a href="#下面是我们的重点：如何实现ueditor的图片上传" class="headerlink" title="下面是我们的重点：如何实现ueditor的图片上传"></a>下面是我们的重点：如何实现ueditor的图片上传</h2><p>1.先安装依赖： </p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ueditor --save</span><br></pre></td></tr></tbody></table></figure>
+
+<p>2.在sever的index.js文件中添加下面ueditor模块node配置项</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//使用ueditor模块</span><br><span class="line">app.use(<span class="string">"/api/ueditor/ue"</span>, ueditor(path.join(__dirname, <span class="string">'public'</span>), <span class="keyword">function</span> (req, res, next) {</span><br><span class="line">  // ueditor 客户发起上传图片请求</span><br><span class="line">  <span class="keyword">if</span> (req.query.action === <span class="string">'uploadimage'</span>) {</span><br><span class="line">    //console.log(1);</span><br><span class="line">    var foo = req.ueditor;</span><br><span class="line"></span><br><span class="line">    var imgname = req.ueditor.filename;</span><br><span class="line"></span><br><span class="line">    var img_url = <span class="string">'/ueditor/images/'</span>;//保存在项目文件夹中，你也可以设置绝对路径保存在项目外的文件夹中</span><br><span class="line">    res.ue_up(img_url); //你只要输入要保存的地址 。保存操作交给ueditor来做</span><br><span class="line">    res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);//IE8下载需要设置返回头尾text/html 不然json返回文件会被直接下载打开</span><br><span class="line">  }</span><br><span class="line">  //  客户端发起图片列表请求</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (req.query.action === <span class="string">'listimage'</span>) {</span><br><span class="line">    var dir_url = <span class="string">'/ueditor/images/'</span>;</span><br><span class="line">    res.ue_list(dir_url); // 客户端会列出 dir_url 目录下的所有图片</span><br><span class="line">  }</span><br><span class="line">  // 客户端发起其它请求</span><br><span class="line">  <span class="keyword">else</span> {</span><br><span class="line">    //console.log(<span class="string">'config.json'</span>)</span><br><span class="line">    res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/json'</span>);</span><br><span class="line">    res.redirect(<span class="string">'/nodejs/config.json'</span>);</span><br><span class="line">  }</span><br><span class="line">}));</span><br></pre></td></tr></tbody></table></figure>
+<p>　　这里需要注意的是因为已经require了ueditor，所以该插件已经安装到了node_module内，所以不需要再拷贝额外的文件了，只需要需要在这个目录下面新建public文件夹存放返回给后台的数据，另外，还需要引入配置文件config.json<br>　　config.json 文件你可以从之前你下载放在static中UEditor &gt; jsp&gt;config.json 复制到下面sever的public文件夹中。<br><img src="https://img-blog.csdnimg.cn/20200416112213667.png" alt="在这里插入图片描述"></p>
+<h2 id="vue的前台配置我们之前已经下载了UEditor"><a href="#vue的前台配置我们之前已经下载了UEditor" class="headerlink" title="vue的前台配置我们之前已经下载了UEditor"></a>vue的前台配置我们之前已经下载了UEditor</h2><p><img src="https://img-blog.csdnimg.cn/20200416112926604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>把serverUrl改成下面 你在node配置项中定义的ueditor接口的路径<br><img src="https://img-blog.csdnimg.cn/20200416113112129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这样基本上就能完成图片的上传了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Pluto</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://szqlovegw.top/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89%EF%BC%88%E4%B8%8B%EF%BC%89---node%E5%AE%9E%E7%8E%B0ueditor%E5%90%8E%E5%8F%B0/">http://szqlovegw.top/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89%EF%BC%88%E4%B8%8B%EF%BC%89---node%E5%AE%9E%E7%8E%B0ueditor%E5%90%8E%E5%8F%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://szqlovegw.top" target="_blank">Memory of love</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vue/">vue</a></div><div class="post_share"><div class="social-share" data-image="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89/"><img class="prev-cover" src="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）</div></div></a></div><div class="next-post pull-right"><a href="/2021/09/15/vue+express+nginx%E9%83%A8%E7%BD%B2%20Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/"><img class="next-cover" src="https://i.loli.net/2021/09/17/imxJt62C1XnbfrR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">vue+express+nginx部署 Windows服务器记录</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/09/15/vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）/" title="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）"><img class="cover" src="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-15</div><div class="title">vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）</div></div></a></div><div><a href="/2021/09/15/vue+express+nginx部署 Windows服务器记录/" title="vue+express+nginx部署 Windows服务器记录"><img class="cover" src="https://i.loli.net/2021/09/17/imxJt62C1XnbfrR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-15</div><div class="title">vue+express+nginx部署 Windows服务器记录</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Twikoo</span><span class="switch-btn"></span><span class="second-comment">Valine</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/09/16/ElLFRbAUs1N9oVP.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">Pluto</div><div class="author-info__description">往后愿你成为自己的太阳，没有阴暗，也无需凭借谁的光！</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ShuZhongQiang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://weibo.com/u/6300035692" target="_blank" title="微博"><i class="fab fa-weibo"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-express-MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89%EF%BC%88%E4%B8%8B%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（下）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installation"><span class="toc-number">2.</span> <span class="toc-text">Installation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BD-UEditor"><span class="toc-number">3.</span> <span class="toc-text">一、下载 UEditor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9C%A8vue%E7%9A%84main-js%E4%B8%AD%E5%BC%95%E5%85%A5VueUeditorWrap%E7%BB%84%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">二、在vue的main.js中引入VueUeditorWrap组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">三、注册组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81v-model%E7%BB%91%E5%AE%9A%E6%95%B0%E6%8D%AE"><span class="toc-number">6.</span> <span class="toc-text">四、v-model绑定数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%A0%B9%E6%8D%AE%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%EF%BC%8C%E5%AE%8C%E6%95%B4%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9%E6%9F%A5%E7%9C%8B-ueditor-config-js-%E6%BA%90%E7%A0%81%E6%88%96-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-number">7.</span> <span class="toc-text">五、根据项目需求修改配置，完整配置选项查看 ueditor.config.js 源码或 官方文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94"><span class="toc-number">8.</span> <span class="toc-text">—————————————————————————————</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E6%88%91%E4%BB%AC%E7%9A%84%E9%87%8D%E7%82%B9%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0ueditor%E7%9A%84%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0"><span class="toc-number">9.</span> <span class="toc-text">下面是我们的重点：如何实现ueditor的图片上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue%E7%9A%84%E5%89%8D%E5%8F%B0%E9%85%8D%E7%BD%AE%E6%88%91%E4%BB%AC%E4%B9%8B%E5%89%8D%E5%B7%B2%E7%BB%8F%E4%B8%8B%E8%BD%BD%E4%BA%86UEditor"><span class="toc-number">10.</span> <span class="toc-text">vue的前台配置我们之前已经下载了UEditor</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/10/11/vue%E6%A0%B9%E6%8D%AE%E9%80%89%E6%8B%A9%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%9B%BF%E6%8D%A2%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9B%B8%E5%90%8C%E7%9A%84%E5%B1%9E%E6%80%A7%E5%AF%B9%E8%B1%A1%EF%BC%8C%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%97%B6%E5%88%99%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%AD%E6%96%B0%E5%A2%9E%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1/" title="无题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"></a><div class="content"><a class="title" href="/2021/10/11/vue%E6%A0%B9%E6%8D%AE%E9%80%89%E6%8B%A9%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%9B%BF%E6%8D%A2%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9B%B8%E5%90%8C%E7%9A%84%E5%B1%9E%E6%80%A7%E5%AF%B9%E8%B1%A1%EF%BC%8C%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%97%B6%E5%88%99%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%AD%E6%96%B0%E5%A2%9E%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1/" title="无题">无题</a><time datetime="2021-10-11T03:45:22.889Z" title="发表于 2021-10-11 11:45:22">2021-10-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/%E4%BD%A0%E5%A5%BD%EF%BC%8C%E9%A1%BE%E9%A1%BE%E8%96%87/" title="你好，顾顾薇"><img src="https://i.loli.net/2021/09/16/ElLFRbAUs1N9oVP.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="你好，顾顾薇"></a><div class="content"><a class="title" href="/2021/09/15/%E4%BD%A0%E5%A5%BD%EF%BC%8C%E9%A1%BE%E9%A1%BE%E8%96%87/" title="你好，顾顾薇">你好，顾顾薇</a><time datetime="2021-09-15T06:43:19.000Z" title="发表于 2021-09-15 14:43:19">2021-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/echart%E5%9C%A8vue%E4%B8%AD%E7%9A%84%E9%A5%BC%E5%9B%BE%E7%9A%84%E5%80%BC%E6%A0%BC%E5%BC%8F%E4%B8%BA%E5%8D%83%E5%88%86%E4%BD%8D%E5%B1%95%E7%A4%BA/" title="关于echart在vue中的饼图的值格式为千分位展示"><img src="https://i.loli.net/2021/09/17/imxJt62C1XnbfrR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于echart在vue中的饼图的值格式为千分位展示"></a><div class="content"><a class="title" href="/2021/09/15/echart%E5%9C%A8vue%E4%B8%AD%E7%9A%84%E9%A5%BC%E5%9B%BE%E7%9A%84%E5%80%BC%E6%A0%BC%E5%BC%8F%E4%B8%BA%E5%8D%83%E5%88%86%E4%BD%8D%E5%B1%95%E7%A4%BA/" title="关于echart在vue中的饼图的值格式为千分位展示">关于echart在vue中的饼图的值格式为千分位展示</a><time datetime="2021-09-15T06:43:19.000Z" title="发表于 2021-09-15 14:43:19">2021-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/geoserver%E5%8F%91%E5%B8%83%E7%A6%BB%E7%BA%BF%E5%8D%AB%E6%98%9F%E5%9B%BETIF%E6%A0%BC%E5%BC%8F/" title="geoserver发布离线瓦片卫星图TIF格式"><img src="https://i.loli.net/2021/09/17/gMK6N2HJ8AQF57a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="geoserver发布离线瓦片卫星图TIF格式"></a><div class="content"><a class="title" href="/2021/09/15/geoserver%E5%8F%91%E5%B8%83%E7%A6%BB%E7%BA%BF%E5%8D%AB%E6%98%9F%E5%9B%BETIF%E6%A0%BC%E5%BC%8F/" title="geoserver发布离线瓦片卫星图TIF格式">geoserver发布离线瓦片卫星图TIF格式</a><time datetime="2021-09-15T06:43:19.000Z" title="发表于 2021-09-15 14:43:19">2021-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89/" title="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）"><img src="https://img-blog.csdnimg.cn/20200415215449818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDgyMzQy,size_16,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）"></a><div class="content"><a class="title" href="/2021/09/15/vue+express+MySQL%E5%AE%9E%E7%8E%B0ueditor%E5%AF%8C%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E7%9A%84%E4%BF%9D%E5%AD%98%EF%BC%88%E5%90%AB%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%EF%BC%89/" title="vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）">vue+express+MySQL实现ueditor富文本内容的保存（含图片上传）（上）</a><time datetime="2021-09-15T06:43:19.000Z" title="发表于 2021-09-15 14:43:19">2021-09-15</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2020 - 2021 By Pluto</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'hello-cloudbase-8gjs9zjw666e14fa',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'hello-cloudbase-8gjs9zjw666e14fa',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1503RVl8u0Sqp7ssKnVDiIJi-gzGzoHsz',
+      appKey: 'avy3KAfLc6xrGxRxdOMrDvAG',
+      placeholder: '记得留下你的名称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Twikoo' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script data-pjax="" src="/js/chocolate.js"></script><div class="aplayer no-destroy" data-id="7735824265" data-server="tencent" data-type="playlist" data-fixed="true" data-mini="true" data-listfolded="false" data-order="random" data-preload="none" data-autoplay="true" muted=""></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
