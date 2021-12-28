@@ -76,7 +76,7 @@ btf.isJqueryLoad(function() {
             radius: 10,
             density: .2,
             color: 'rgba(255,255,255,.7)',
-            clearOffset: 0.99
+            clearOffset: 0
         });
     }! function(p) {
         p.fn.circleMagic = function(t) {
