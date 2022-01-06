@@ -4,11 +4,11 @@ btf.isJqueryLoad(function() {
             // set the defaults
             // 设置默认值
             options = options || {};
-
             options.sound = options.sound || false;
             options.opacity = options.opacity || 1;
-            options.width = options.width || $(this).width();
-            options.height = options.height || $(this).height();
+            options.width =  this[0].clientWidth // options.width || $(this).width();
+            options.height = this[0].clientHeight // options.height || $(this).height();
+
 
             var fireworksField = this,
                 particles = [],
@@ -32,15 +32,16 @@ btf.isJqueryLoad(function() {
             // 创建画布并获取上下文
             var canvas = document.createElement('canvas');
             canvas.id = 'canvas';
+            canvas.style.top = 0;
+            canvas.style.left = 0;
+            canvas.style.zIndex = 0;
+            canvas.style.pointerEvents = "none";
+            canvas.style.position = 'absolute';
             canvas.width = SCREEN_WIDTH;
             canvas.height = SCREEN_HEIGHT;
-            canvas.style.width  = '100%';
+            canvas.style.width  = SCREEN_WIDTH + 'px';
             canvas.style.height = SCREEN_HEIGHT + 'px';
-            canvas.style.position = 'absolute';
-            canvas.style.top = 0;
-            canvas.style.zIndex = 0,
-                canvas.style.left = 0;
-            // canvas.style.opacity = options.opacity;
+            canvas.style.opacity = options.opacity;
             var context = canvas.getContext('2d');
             // The Particles Object
             // 粒子对象
@@ -311,13 +312,22 @@ btf.isJqueryLoad(function() {
             return fireworksField;
         };
     }(jQuery));
-    // 烟花
-    $('#page-header').fireworks({
-        sound: false, // sound effect
-        opacity: 1,
-        width: '100%',
-        height: '100%'
-    });
+    // 引用chocolate.js
+    // let new_chocolate = document.createElement("script");
+    // new_chocolate.setAttribute("type","text/javascript");
+    // new_chocolate.setAttribute("src", "../js/chocolate.js");
+    // var a = document.body.appendChild(new_chocolate);
+    // 判断当前页面名称
+    let page_name=window.location.pathname
+    if(page_name == '/') {
+        // 烟花
+        $('#page-header').fireworks({
+            sound: false, // sound effect
+            opacity: 1,
+            width: '100%',
+            height: '100%'
+        });
+    }
     function pageTop() {
         document.addEventListener('scroll-down-effects')[0]
     }
