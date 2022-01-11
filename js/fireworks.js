@@ -8,7 +8,7 @@ btf.isJqueryLoad(function() {
             options.opacity = options.opacity || 1;
             options.width =  this[0].clientWidth // options.width || $(this).width();
             options.height = this[0].clientHeight // options.height || $(this).height();
-
+            options.rocketsNum = options.rocketsNum
 
             var fireworksField = this,
                 particles = [],
@@ -16,6 +16,7 @@ btf.isJqueryLoad(function() {
                 MAX_PARTICLES = 400,
                 SCREEN_WIDTH = options.width,
                 SCREEN_HEIGHT = options.height;
+
 
             // cache the sounds if the plugin has been configured to use soudns
             // 如果插件已配置为使用soudns，则缓存声音
@@ -147,7 +148,7 @@ btf.isJqueryLoad(function() {
                     audio.play();
                 }
 
-                var count = Math.random() * 10 + 80;
+                var count = options.rocketsNum > 3 ? Math.random() * 10 + 80 : Math.random() * 10 + 30;
 
                 for (var i = 0; i < count; i++) {
                     var particle = new Particle(this.pos);
@@ -275,7 +276,7 @@ btf.isJqueryLoad(function() {
             };
 
             var launchFrom = function(x) {
-                if (rockets.length < 10) {
+                if (rockets.length < options.rocketsNum) {
                     var rocket = new Rocket(x);
                     rocket.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
                     rocket.vel.y = Math.random() * -3 - 4;
@@ -288,7 +289,11 @@ btf.isJqueryLoad(function() {
             };
 
             var launch = function() {
-                launchFrom(SCREEN_WIDTH * Math.random() -50);
+                function random(m,n) {
+                    return Math.floor(Math.random() * (n - m)) + m
+                }
+                let LaunchPosition = random(50, (SCREEN_WIDTH - 50))
+                launchFrom(LaunchPosition);
             };
             // Append the canvas and start the loops
             // 附加画布并启动循环
@@ -320,12 +325,23 @@ btf.isJqueryLoad(function() {
     // 判断当前页面名称
     let page_name=window.location.pathname
     if(page_name == '/') {
+        // 针对移动端 和 IOS 优化 减少爆炸粒子 和 发射的粒子
+        function isMobile(){
+            let rocketsNum
+            if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+                rocketsNum = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) ? 3 : 5
+            } else {
+                rocketsNum = 10
+            }
+            return rocketsNum
+        }
         // 烟花
         $('#page-header').fireworks({
             sound: false, // sound effect
             opacity: 1,
             width: '100%',
-            height: '100%'
+            height: '100%',
+            rocketsNum: isMobile()
         });
     }
     function pageTop() {
