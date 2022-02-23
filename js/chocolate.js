@@ -60,12 +60,13 @@ btf.isJqueryLoad(function() {
         }
     }(jQuery);
 
-    let page_name=window.location.pathname
-    if(page_name != '/') {
-        // 气泡
-        bubble();
-    }
+    // let page_name=window.location.pathname
+    // if(page_name != '/') {
+    //     // 气泡
+    //     bubble();
+    // }
     //
+    bubble();
     function pageTop() {
         document.addEventListener('scroll-down-effects')[0]
     }

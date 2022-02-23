@@ -329,7 +329,7 @@ btf.isJqueryLoad(function() {
         function isMobile(){
             let rocketsNum
             if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
-                rocketsNum = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) ? 3 : 5
+                rocketsNum = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) ? 2 : 5
             } else {
                 rocketsNum = 10
             }
