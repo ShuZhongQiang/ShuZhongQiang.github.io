@@ -14,8 +14,8 @@
 // }
 
 btf.isJqueryLoad(function() {
-
     // 气泡
+
     function bubble() {
         $('#page-header').circleMagic({
             radius: 10,
