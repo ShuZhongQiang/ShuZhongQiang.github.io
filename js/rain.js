@@ -4,8 +4,8 @@ btf.isJqueryLoad(function() {
     function bubble() {
         $('#page-header').circleMagic({
             radius: 10,
-            density: .2,
-            color: 'rgba(255,255,255,.7)',
+            density: .1,
+            color: 'rgba(255,255,255,.5)',
             clearOffset: 0.99
         });
     }! function(p) {
@@ -27,19 +27,19 @@ btf.isJqueryLoad(function() {
             function f() {
                 var t = this;
 
-                function e() {
+                function e(again) {
                     t.pos.x = Math.random() * o,
-                    t.pos.y = 0,
-                    t.alpha = .1 + Math.random() * d.clearOffset,
-                    t.scale = .1 + .3 * Math.random(),
-                    t.speed = Math.random() + .3,
-                    "random" === d.color ? t.color = "rgba(" + Math.floor(255 * Math.random()) + ", " + Math.floor(0 * Math.random()) + ", " + Math.floor(0 * Math.random()) + ", " + Math.random().toPrecision(2) + ")" : t.color = d.color }
+                    t.pos.y = again ? 0 : Math.random() * a,
+                    t.alpha = .1 +  d.clearOffset,
+                    t.scale = 0.05 + .2 * Math.random(),
+                    t.speed = Math.random() + 10,
+                    "random" === d.color ? t.color = "rgba(255, 255, 255, 0.5)" : t.color = d.color }
                     t.pos = {},
                     e(),
                     this.draw = function() {
-                        t.alpha <= 0 && e(), // 判断 alpha 小于 0 就调用 e()
+                        t.alpha <= 0 && e(true), // 判断 alpha 小于 0 就调用 e()
                         t.pos.y += t.speed,
-                        t.pos.x += Math.random() <= 0.5 ? -Math.random() : Math.random(),
+                        //t.pos.x += Math.random() <= 0.5 ? -Math.random() : Math.random(),
                         // t.alpha -= 5e-4, // alpha 每次 draw 减少 0.005
                         r.beginPath(),
                         r.arc(t.pos.x, t.pos.y, t.scale * d.radius, 0, 2 * Math.PI, !1),
